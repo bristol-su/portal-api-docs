@@ -55,6 +55,104 @@
           }
         ]
       }
+    },
+    "/action-instance/{action_instance_id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "integer"
+          },
+          "name": "action_instance_id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the Action Instance"
+        }
+      ],
+      "get": {
+        "summary": "Get information about an action instance",
+        "tags": [
+          "Action Instance"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK\n\nThe action instance with the given ID is returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Action-Instance"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found\n\nThe action instance with the given ID could not be found"
+          }
+        },
+        "operationId": "get-action-instance-action_instance_id",
+        "description": "Get information about a specific action instance",
+        "security": [
+          {
+            "OAuth2 Security": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "",
+        "operationId": "patch-action-instance-action_instance_id",
+        "responses": {
+          "200": {
+            "description": "OK\n\nReturns the updated action instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Action-Instance"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found\n\nThe ID of the action instance could not be found"
+          }
+        },
+        "description": "Update information about the action instance",
+        "security": [
+          {
+            "OAuth2 Security": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "New name of the action instance"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "New description for the action instance"
+                  },
+                  "event": {
+                    "type": "string",
+                    "description": "Full class name of the event the action should trigger on"
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "The full class name of the action to trigger"
+                  },
+                  "module_instance_id": {
+                    "type": "string",
+                    "description": "The module instance the action instance is attached to"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Fields to update in the action instance."
+        }
+      }
     }
   },
   "components": {
@@ -80,6 +178,74 @@
         "x-tags": [
           "Action"
         ]
+      },
+      "Action-Instance": {
+        "title": "Action Instance",
+        "type": "object",
+        "x-tags": [
+          "Action Instance"
+        ],
+        "description": "Represents an instance of an action assigned to an event.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique ID of the Action Instance"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name for the action instance"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the activity instance"
+          },
+          "event": {
+            "type": "string",
+            "description": "The class name of the event"
+          },
+          "action": {
+            "type": "string",
+            "description": "The full namespace of the action class"
+          },
+          "module_instance_id": {
+            "type": "integer",
+            "description": "The module instance ID the action instance is associated with"
+          },
+          "event_fields": {
+            "description": "Fields the event registers. The keys are the key the event is referenced as",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Label for the field"
+                },
+                "helptext": {
+                  "type": "string",
+                  "description": "Description of the field"
+                }
+              }
+            }
+          },
+          "action_fields": {
+            "description": "Fields the action can take",
+            "type": "array",
+            "items": {
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Label for the field"
+                },
+                "helptext": {
+                  "type": "string",
+                  "description": "Description of the field"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -113,3 +279,4 @@
     }
   }
 }
+
