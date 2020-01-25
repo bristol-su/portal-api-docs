@@ -415,6 +415,7 @@
             "description": "Fields the action can take",
             "type": "array",
             "items": {
+              "type": "object",
               "properties": {
                 "label": {
                   "type": "string",
@@ -424,8 +425,7 @@
                   "type": "string",
                   "description": "Description of the field"
                 }
-              },
-              "type": "object"
+              }
             }
           }
         }
@@ -451,7 +451,7 @@
             "description": "Key of the action field"
           },
           "action_instance_id": {
-            "$ref": "#/components/schemas/Action-Instance"
+            "type": "number"
           }
         }
       }
