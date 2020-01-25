@@ -1,15 +1,5 @@
 {
   "openapi": "3.0.0",
-  "tags": [
-    {
-      "name": "Action",
-      "description": "Manage available actions"
-    },
-    {
-      "name": "Action Instance",
-      "description": "Manage actions that will fire when events fire"
-    }
-  ],
   "info": {
     "title": "Portal API",
     "version": "1.0",
@@ -166,6 +156,186 @@
           "Action Instance"
         ]
       }
+    },
+    "/api/action-instance": {
+      "post": {
+        "summary": "Update an action instance",
+        "operationId": "post-action-instance-action_instance_id",
+        "responses": {
+          "201": {
+            "description": "OK\n\nReturns the updated action instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Action-Instance"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new action instance.\n\nSet up an action to trigger when a specific event is fired.",
+        "security": [
+          {
+            "OAuth2 Security": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "New name of the action instance"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "New description for the action instance"
+                  },
+                  "event": {
+                    "type": "string",
+                    "description": "Full class name of the event the action should trigger on"
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "The full class name of the action to trigger"
+                  },
+                  "module_instance_id": {
+                    "type": "string",
+                    "description": "The module instance the action instance is attached to"
+                  }
+                },
+                "required": [
+                  "name",
+                  "description",
+                  "event",
+                  "action",
+                  "module_instance_id"
+                ]
+              }
+            }
+          },
+          "description": "Fields for the action instance."
+        },
+        "tags": [
+          "Action Instance"
+        ]
+      }
+    },
+    "/api/action-instance-field/{action_instance_field}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "action_instance_field",
+          "in": "path",
+          "required": true,
+          "description": "ID of the action instance field mapping"
+        }
+      ],
+      "patch": {
+        "summary": "Update an action instance field mapping",
+        "tags": [
+          "Action Instance Field"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK\n\nUpdated the action instance field successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Action-Instance-Field"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "\nNot Found\n\nThe action instance field id was not found"
+          }
+        },
+        "operationId": "patch-api-action-instance-field-action_instance_field",
+        "description": "Update an action instance field mapping.\n\nThe event field, action field or action instance the mapping is assigned to can be changed.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "event_field": {
+                    "type": "string",
+                    "description": "Name of the event field"
+                  },
+                  "action_field": {
+                    "type": "string",
+                    "description": "Name of the action field"
+                  },
+                  "action_instance_id": {
+                    "type": "string",
+                    "description": "Action instance ID the mapping should be assigned to"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2 Security": []
+          }
+        ]
+      }
+    },
+    "/api/action-instance-field": {
+      "post": {
+        "summary": "Create an action instance field mapping",
+        "tags": [
+          "Action Instance Field"
+        ],
+        "operationId": "post-api-action-instance-field",
+        "description": "Create a new action instance field mapping",
+        "security": [
+          {
+            "OAuth2 Security": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action_instance_id": {
+                    "type": "string",
+                    "description": "Action instance ID the mapping should be assigned to"
+                  },
+                  "action_field": {
+                    "type": "string",
+                    "description": "Name of the action field"
+                  },
+                  "event_field": {
+                    "type": "string",
+                    "description": "Name of the event field"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Action-Instance-Field"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -259,6 +429,31 @@
             }
           }
         }
+      },
+      "Action-Instance-Field": {
+        "title": "Action-Instance-Field",
+        "type": "object",
+        "x-tags": [
+          "Action Instance Field"
+        ],
+        "description": "Represents a mapping between an event field (i.e. data the event holds) and an action field needed to dispatch the action (e.g. message, email address etc) for a given event action link (Action Instance)",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique ID"
+          },
+          "event_field": {
+            "type": "string",
+            "description": "Key of the event field"
+          },
+          "action_field": {
+            "type": "string",
+            "description": "Key of the action field"
+          },
+          "action_instance_id": {
+            "$ref": "#/components/schemas/Action-Instance"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -290,5 +485,19 @@
         "description": "Authenticate using the OAuth2 specification"
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Action",
+      "description": "Manage available actions"
+    },
+    {
+      "name": "Action Instance",
+      "description": "Manage actions that will fire when events fire"
+    },
+    {
+      "name": "Action Instance Field",
+      "description": "Manage the field mappings from an event to an action instance"
+    }
+  ]
 }
