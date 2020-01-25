@@ -336,6 +336,97 @@
           }
         }
       }
+    },
+    "/api/activity": {
+      "post": {
+        "summary": "Create a new activity",
+        "tags": [
+          "Activity"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Activity"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-api-activity",
+        "description": "Create a new activity with the given parameters",
+        "security": [
+          {
+            "OAuth2 Security": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "end_date": {
+                    "type": "string",
+                    "description": "Date and time the activity becomes inactive, or null if always active"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "description": "Date and time the activity becomes active, or null if always active"
+                  },
+                  "admin_logic": {
+                    "type": "string",
+                    "description": "ID of a logic group who are admins of the activity"
+                  },
+                  "for_logic": {
+                    "type": "string",
+                    "description": "ID of a logic group who are participants of the activity"
+                  },
+                  "activity_for": {
+                    "type": "string",
+                    "description": "For user, group or role"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "Type: Open, Completable or Multi-Completable "
+                  },
+                  "slug": {
+                    "type": "string",
+                    "description": "Slug of the activity"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the activity"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the Activity"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Unique ID of the activity"
+                  }
+                },
+                "required": [
+                  "end_date",
+                  "start_date",
+                  "admin_logic",
+                  "for_logic",
+                  "activity_for",
+                  "type",
+                  "slug",
+                  "description",
+                  "name",
+                  "id"
+                ]
+              }
+            }
+          },
+          "description": "Attributes for the new activity to use"
+        }
+      }
     }
   },
   "components": {
@@ -452,6 +543,56 @@
           },
           "action_instance_id": {
             "type": "number"
+          }
+        }
+      },
+      "Activity": {
+        "title": "Activity",
+        "type": "object",
+        "x-tags": [
+          "Activity"
+        ],
+        "description": "Represents an activity delivered through the portal",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the activity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the Activity"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the activity"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Slug of the activity"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type: Open, Completable or Multi-Completable "
+          },
+          "activity_for": {
+            "type": "string",
+            "description": "For user, group or role"
+          },
+          "for_logic": {
+            "type": "string",
+            "description": "ID of a logic group who are participants of the activity"
+          },
+          "admin_logic": {
+            "type": "string",
+            "description": "ID of a logic group who are admins of the activity"
+          },
+          "start_date": {
+            "type": "string",
+            "description": "Date and time the activity becomes active, or null if always active"
+          },
+          "end_date": {
+            "type": "string",
+            "description": "Date and time the activity becomes inactive, or null if always active"
           }
         }
       }
