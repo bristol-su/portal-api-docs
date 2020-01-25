@@ -403,10 +403,6 @@
                   "name": {
                     "type": "string",
                     "description": "Name of the Activity"
-                  },
-                  "id": {
-                    "type": "string",
-                    "description": "Unique ID of the activity"
                   }
                 },
                 "required": [
@@ -418,13 +414,76 @@
                   "type",
                   "slug",
                   "description",
-                  "name",
-                  "id"
+                  "name"
                 ]
               }
             }
           },
           "description": "Attributes for the new activity to use"
+        }
+      }
+    },
+    "/api/activity-instance": {
+      "post": {
+        "summary": "Create a new activity instance",
+        "tags": [
+          "Activity Instance"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Activity-Instance"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "post-api-activity-instance",
+        "description": "Create a new activity instance",
+        "security": [
+          {
+            "OAuth2 Security": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the new activity instance"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description for the activity instance"
+                  },
+                  "activity_id": {
+                    "type": "string",
+                    "description": "ID of the activity the activity isntance is for"
+                  },
+                  "resource_type": {
+                    "type": "string",
+                    "description": "The resource type",
+                    "enum": [
+                      "user",
+                      "group",
+                      "role"
+                    ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "description": "ID of the resource"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Parameters for the new activity instance"
         }
       }
     }
@@ -593,6 +652,48 @@
           "end_date": {
             "type": "string",
             "description": "Date and time the activity becomes inactive, or null if always active"
+          }
+        }
+      },
+      "Activity-Instance": {
+        "title": "Activity-Instance",
+        "type": "object",
+        "x-tags": [
+          "Activity Instance"
+        ],
+        "description": "Represents an instance of an activity",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Unique ID of the activity instance"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the activity isntance"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the activity instance"
+          },
+          "activity_id": {
+            "type": "integer",
+            "description": "ID of the activity for the activity instance"
+          },
+          "resource_type": {
+            "type": "string",
+            "description": "The resource type, one of user, group or role"
+          },
+          "resource_id": {
+            "type": "integer",
+            "description": "The ID of the resource"
+          },
+          "run_number": {
+            "type": "string",
+            "description": "The run number of the activity instance. Increments by one for each new activity instance for the activity id and resource"
+          },
+          "participant": {
+            "type": "object",
+            "description": "A user, group or role. The resource_type with the id resource_id."
           }
         }
       }
