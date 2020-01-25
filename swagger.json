@@ -97,7 +97,7 @@
         ]
       },
       "patch": {
-        "summary": "",
+        "summary": "Update an action instance",
         "operationId": "patch-action-instance-action_instance_id",
         "responses": {
           "200": {
@@ -151,7 +151,10 @@
             }
           },
           "description": "Fields to update in the action instance."
-        }
+        },
+        "tags": [
+          "Action Instance"
+        ]
       }
     }
   },
@@ -279,4 +282,3 @@
     }
   }
 }
-
