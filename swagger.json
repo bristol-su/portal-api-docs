@@ -28,7 +28,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK\n\nActions Returned",
             "content": {
               "application/json": {
                 "schema": {
@@ -36,15 +36,43 @@
                   "items": {
                     "$ref": "#/components/schemas/Action"
                   }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {}
+                },
+                "examples": {
+                  "2 Actions Returned": {
+                    "value": [
+                      {
+                      "name": "Send an Email",
+                      "description": "Send an Email to a specified email address",
+                      "class": "\BristolSU\Actions\SendEmail"
+                      },
+                      {
+                      "name": "Add a Task to Microsoft Planner",
+                      "description": "Add a Task to Microsoft Planner",
+                      "class": "\BristolSU\Actions\AddTaskToPlanner"
+                      },
+                    ]
+                  },
+                  "1 Action Returned": {
+                    "value": [
+                      {
+                      "name": "Send an Email",
+                      "description": "Send an Email to a specified email address",
+                      "class": "\BristolSU\Actions\SendEmail"
+                      },
+                      {
+                      "name": "Add a Task to Microsoft Planner",
+                      "description": "Add a Task to Microsoft Planner",
+                      "class": "\BristolSU\Actions\AddTaskToPlanner"
+                      },
+                    ]
+                  }
                 }
               }
-            }
+            },
+            "headers": {}
+          },
+          "201": {
+            "description": "Created"
           }
         },
         "operationId": "get-action",
